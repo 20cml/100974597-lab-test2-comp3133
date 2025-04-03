@@ -1,0 +1,70 @@
+<div *ngIf="mission" class="mission-details">
+    <div class="header">
+      <h2>{{ mission.mission_name }} Mission Details</h2>
+      <img *ngIf="mission.links.mission_patch" 
+           [src]="mission.links.mission_patch" 
+           alt="Mission Patch"
+           class="mission-patch">
+    </div>
+  
+    <div class="details-grid">
+      <div class="detail-card">
+        <h3>Launch Information</h3>
+        <p><strong>Flight Number:</strong> {{ mission.flight_number }}</p>
+        <p><strong>Launch Year:</strong> {{ mission.launch_year }}</p>
+        <p><strong>Launch Site:</strong> {{ mission.launch_site.site_name_long }}</p>
+        <p><strong>Status:</strong> {{ mission.launch_success ? 'Success' : 'Failure' }}</p>
+      </div>
+  
+      <div class="detail-card">
+        <h3>Rocket Information</h3>
+        <p><strong>Name:</strong> {{ mission.rocket.rocket_name }}</p>
+        <p><strong>Type:</strong> {{ mission.rocket.rocket_type }}</p>
+        <p *ngIf="mission.rocket.company"><strong>Company:</strong> {{ mission.rocket.company }}</p>
+        <p *ngIf="mission.rocket.country"><strong>Country:</strong> {{ mission.rocket.country }}</p>
+      </div>
+  
+      <div class="detail-card full-width">
+        <h3>Mission Details</h3>
+        <p>{{ mission.details }}</p>
+      </div>
+  
+      <div class="detail-card full-width links">
+        <h3>Media & Resources</h3>
+        <div class="links-container">
+          <a *ngIf="mission.links.article_link" 
+             [href]="mission.links.article_link" 
+             target="_blank" 
+             class="link-button">
+            <i class="fas fa-newspaper"></i> Article
+          </a>
+          <a *ngIf="mission.links.wikipedia" 
+             [href]="mission.links.wikipedia" 
+             target="_blank" 
+             class="link-button">
+            <i class="fab fa-wikipedia-w"></i> Wikipedia
+          </a>
+          <a *ngIf="mission.links.video_link" 
+             [href]="mission.links.video_link" 
+             target="_blank" 
+             class="link-button">
+            <i class="fas fa-video"></i> Watch Video
+          </a>
+        </div>
+      </div>
+  
+      <div *ngIf="mission.links.flickr_images?.length" class="detail-card full-width gallery">
+        <h3>Mission Gallery</h3>
+        <div class="image-grid">
+          <img *ngFor="let image of mission.links.flickr_images" 
+               [src]="image" 
+               alt="Mission image"
+               class="gallery-image">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="!mission" class="no-mission">
+    <p>No mission selected</p>
+  </div>

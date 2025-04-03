@@ -1,0 +1,60 @@
+<!-- Loading State -->
+<div *ngIf="!launches.length" class="loading">
+    <div class="spinner"></div>
+    Loading missions...
+  </div>
+  
+  <!-- Empty Filter Results -->
+  <div *ngIf="launches.length && !filteredLaunches.length" class="no-missions">
+    No missions found for {{currentFilterYear}}
+  </div>
+  
+  <!-- Mission List with Side-by-Side Details -->
+  <div class="mission-container">
+    <!-- Left Column: List of Missions -->
+    <div class="mission-list">
+      <div *ngFor="let launch of filteredLaunches" 
+           class="mission-card"
+           (click)="selectMission(launch)"
+           [class.selected]="selectedMission?.flight_number === launch.flight_number">
+        
+        <img [src]="launch.links.mission_patch_small" 
+             *ngIf="launch.links.mission_patch_small"
+             class="mission-patch"
+             alt="{{launch.mission_name}} patch">
+        
+        <h3>{{ launch.mission_name }}</h3>
+        <p class="flight-info">
+          <strong>Flight #{{ launch.flight_number }}</strong> 
+          ({{ launch.launch_year }})
+        </p>
+        <p class="details-summary">
+          {{ launch.details | truncate:150 || 'No details available' }}
+        </p>
+        
+        <div class="rocket-info">
+          🚀 {{ launch.rocket.rocket_name }} ({{ launch.rocket.rocket_type }})
+        </div>
+        
+        <div class="action-buttons">
+          <button (click)="selectMission(launch); $event.stopPropagation()" 
+                  class="view-details-btn">
+            Show Details
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Right Column: Details Panel -->
+    <div class="details-panel" *ngIf="selectedMission">
+      <button class="close-btn" (click)="clearSelection()" aria-label="Close details">
+        &times;
+      </button>
+      <app-missiondetails [mission]="selectedMission"></app-missiondetails>
+    </div>
+  </div>
+  
+  <!-- Empty State when no mission is selected (mobile view) -->
+  <div *ngIf="!selectedMission && filteredLaunches.length" class="select-prompt">
+    <p>Select a mission to view details</p>
+  </div>

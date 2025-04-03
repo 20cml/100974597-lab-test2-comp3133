@@ -1,0 +1,5 @@
+<div class="app-container">
+    <h1>SpaceX Mission Launch Finder</h1>
+    <app-missionfilter (filterChanged)="onFilterChange($event)"></app-missionfilter>
+    <app-missionlist [filterYear]="currentFilter"></app-missionlist>
+  </div>
